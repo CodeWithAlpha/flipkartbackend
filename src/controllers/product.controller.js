@@ -75,17 +75,15 @@ const GetProducts = asyncHandler(async (req, res) => {
  }
 
  const products = await Product.aggregate([
-  { $match: filterData },
-  { $skip: currentPage * pageSize },
+  { $match: { category: new mongoose.Types.ObjectId(category) } },
+  { $skip: currentPage == 1 ? 0 : currentPage * pageSize },
   { $limit: pageSize },
  ]);
 
  const productsCount = await Product.aggregate([
-  { $match: {} },
+  { $match: { category: new mongoose.Types.ObjectId(category) } },
   { $count: "totalProducts" },
  ]);
-
- console.log(productsCount);
 
  if (!products.length)
   res
@@ -107,6 +105,7 @@ const GetProducts = asyncHandler(async (req, res) => {
 const GetProductById = asyncHandler(async (req, res) => {
  const { id } = req.params;
  const product = await Product.aggregate([
+  { $match: { _id: new mongoose.Types.ObjectId(id) } },
   {
    $lookup: {
     from: "categories",
