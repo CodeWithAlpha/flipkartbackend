@@ -5,6 +5,7 @@
  "type": "module",
  "main": "index.js",
  "scripts": {
+  "start": "node src/index.js",
   "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
   "build": "echo 'Building project...' && mkdir -p dist && cp -r src/* dist/",
   "test": "echo \"Error: no test specified\" && exit 1"
